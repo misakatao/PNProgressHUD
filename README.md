@@ -1,2 +1,2 @@
 # YJProgressHUD
-The Swift version of SVProgressHUD.
+The Swift version of [SVProgressHUD](https://github.com/SVProgressHUD/SVProgressHUD).
