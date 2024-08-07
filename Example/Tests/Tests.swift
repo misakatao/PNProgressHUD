@@ -1,5 +1,5 @@
 import XCTest
-import YJProgressHUD
+import PNProgressHUD
 
 class Tests: XCTestCase {
     

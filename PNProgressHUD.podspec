@@ -1,5 +1,5 @@
 #
-# Be sure to run `pod lib lint YJProgressHUD.podspec' to ensure this is a
+# Be sure to run `pod lib lint PNProgressHUD.podspec' to ensure this is a
 # valid spec before submitting.
 #
 # Any lines starting with a # are optional, but their use is encouraged
@@ -7,9 +7,9 @@
 #
 
 Pod::Spec.new do |s|
-  s.name             = 'YJProgressHUD'
+  s.name             = 'PNProgressHUD'
   s.version          = '0.1.0'
-  s.summary          = 'A short description of YJProgressHUD.'
+  s.summary          = 'A short description of PNProgressHUD.'
 
 # This description is used to generate tags and improve search results.
 #   * Think: What does it do? Why did you write it? What is the focus?
@@ -21,17 +21,17 @@ Pod::Spec.new do |s|
 TODO: Add long description of the pod here.
                        DESC
 
-  s.homepage         = 'https://github.com/misakatao/YJProgressHUD'
+  s.homepage         = 'https://github.com/misakatao/PNProgressHUD'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'misakatao' => 'misakatao@gmail.com' }
-  s.source           = { :git => 'https://github.com/misakatao/YJProgressHUD.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/misakatao/PNProgressHUD.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
   s.ios.deployment_target = '11.0'
   s.swift_version = '5.0'
-  s.source_files = 'YJProgressHUD/Classes/**/*'
-  s.resources = 'YJProgressHUD/Assets/*.bundle'
+  s.source_files = 'PNProgressHUD/Classes/**/*'
+  s.resources = 'PNProgressHUD/Assets/*.bundle'
   s.frameworks = 'UIKit', 'QuartzCore'
-  
+
 end

@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  YJProgressHUD
+//  PNProgressHUD
 //
-//  Created by misakatao@gmail.com on 06/01/2023.
-//  Copyright (c) 2023 misakatao@gmail.com. All rights reserved.
+//  Created by misakatao@gmail.com on 08/07/2024.
+//  Copyright (c) 2024 misakatao@gmail.com. All rights reserved.
 //
 
 import UIKit

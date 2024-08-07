@@ -1,16 +1,16 @@
 PODS:
-  - YJProgressHUD (0.1.0)
+  - PNProgressHUD (0.1.0)
 
 DEPENDENCIES:
-  - YJProgressHUD (from `../`)
+  - PNProgressHUD (from `../`)
 
 EXTERNAL SOURCES:
-  YJProgressHUD:
+  PNProgressHUD:
     :path: "../"
 
 SPEC CHECKSUMS:
-  YJProgressHUD: c04991a2c4def308526f644473d5efa53a9a5f72
+  PNProgressHUD: 7dc1145bfa45156553e23d170c9eaabb576f8cb7
 
-PODFILE CHECKSUM: 2a5ef3f324599daa9fcce47864aabf04d656096e
+PODFILE CHECKSUM: 2efc82de9f647ebb209ce86acd6e3653b35ffc42
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.15.2

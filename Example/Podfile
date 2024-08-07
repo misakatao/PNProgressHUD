@@ -2,10 +2,10 @@ use_frameworks!
 
 platform :ios, '10.0'
 
-target 'YJProgressHUD_Example' do
-  pod 'YJProgressHUD', :path => '../'
+target 'PNProgressHUD_Example' do
+  pod 'PNProgressHUD', :path => '../'
 
-  target 'YJProgressHUD_Tests' do
+  target 'PNProgressHUD_Tests' do
     inherit! :search_paths
 
     
