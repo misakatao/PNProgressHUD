@@ -1,6 +1,5 @@
 //
-//  YJProgressHUD.swift
-//  YJSportBaseUI
+//  ProgressHUD.swift
 //
 //  Created by Misaka on 2023/6/1.
 //
@@ -8,14 +7,14 @@
 import Foundation
 import UIKit
 
-extension YJProgressHUD {
-    public static let didReceiveTouchEventNotification: NSNotification.Name = NSNotification.Name(rawValue: "YJProgressHUD.DidReceiveTouchEventNotification")
-    public static let didTouchDownInsideNotification: NSNotification.Name = NSNotification.Name(rawValue: "YJProgressHUD.DidTouchDownInsideNotification")
-    public static let willDisappearNotification: NSNotification.Name = NSNotification.Name(rawValue: "YJProgressHUD.WillDisappearNotification")
-    public static let didDisappearNotification: NSNotification.Name = NSNotification.Name(rawValue: "YJProgressHUD.DidDisappearNotification")
-    public static let willAppearNotification: NSNotification.Name = NSNotification.Name(rawValue: "YJProgressHUD.WillAppearNotification")
-    public static let didAppearNotification: NSNotification.Name = NSNotification.Name(rawValue: "YJProgressHUD.DidAppearNotification")
-    public static let statusUserInfoKey: NSNotification.Name = NSNotification.Name(rawValue: "YJProgressHUD.StatusUserInfoKey")
+extension ProgressHUD {
+    public static let didReceiveTouchEventNotification: NSNotification.Name = NSNotification.Name(rawValue: "ProgressHUD.DidReceiveTouchEventNotification")
+    public static let didTouchDownInsideNotification: NSNotification.Name = NSNotification.Name(rawValue: "ProgressHUD.DidTouchDownInsideNotification")
+    public static let willDisappearNotification: NSNotification.Name = NSNotification.Name(rawValue: "ProgressHUD.WillDisappearNotification")
+    public static let didDisappearNotification: NSNotification.Name = NSNotification.Name(rawValue: "ProgressHUD.DidDisappearNotification")
+    public static let willAppearNotification: NSNotification.Name = NSNotification.Name(rawValue: "ProgressHUD.WillAppearNotification")
+    public static let didAppearNotification: NSNotification.Name = NSNotification.Name(rawValue: "ProgressHUD.DidAppearNotification")
+    public static let statusUserInfoKey: NSNotification.Name = NSNotification.Name(rawValue: "ProgressHUD.StatusUserInfoKey")
     
     public static let parallaxDepthPoints: CGFloat = 10.0
     public static let undefinedProgress: CGFloat = -1
@@ -25,7 +24,7 @@ extension YJProgressHUD {
     public static let labelSpacing: CGFloat = 8.0
 }
 
-public class YJProgressHUD : UIView {
+public class ProgressHUD : UIView {
     
     public enum Style {
         case light
@@ -47,19 +46,19 @@ public class YJProgressHUD : UIView {
     }
     
     public static let currentBundle: Bundle = {
-        let bundle = Bundle(for: YJProgressHUD.self)
-        guard let url = bundle.url(forResource: "YJProgressHUD", withExtension: "bundle") else { return Bundle.main }
+        let bundle = Bundle(for: ProgressHUD.self)
+        guard let url = bundle.url(forResource: "ProgressHUD", withExtension: "bundle") else { return Bundle.main }
         guard let imageBundle = Bundle(url: url) else { return Bundle.main }
         return imageBundle
     }()
     
     public static func getBundleImage(_ named: String?) -> String {
-        return YJProgressHUD.currentBundle.path(forResource: named, ofType: "png") ?? ""
+        return ProgressHUD.currentBundle.path(forResource: named, ofType: "png") ?? ""
     }
     
-    public var defaultStyle: YJProgressHUD.Style = .dark
-    public var defaultMaskType: YJProgressHUD.MaskType = .none
-    public var defaultAnimationType: YJProgressHUD.AnimationType = .flat
+    public var defaultStyle: ProgressHUD.Style = .dark
+    public var defaultMaskType: ProgressHUD.MaskType = .none
+    public var defaultAnimationType: ProgressHUD.AnimationType = .flat
     
     public var containerView: UIView?
     
@@ -78,17 +77,17 @@ public class YJProgressHUD : UIView {
     public var imageViewSize: CGSize = CGSizeMake(28, 28)
     public var shouldTintImages: Bool = true
     
-    public var infoImage: UIImage? = UIImage(contentsOfFile: YJProgressHUD.getBundleImage("info"))
-    public var successImage: UIImage? = UIImage(contentsOfFile: YJProgressHUD.getBundleImage("success"))
-    public var errorImage: UIImage? = UIImage(contentsOfFile: YJProgressHUD.getBundleImage("error"))
+    public var infoImage: UIImage? = UIImage(contentsOfFile: ProgressHUD.getBundleImage("info"))
+    public var successImage: UIImage? = UIImage(contentsOfFile: ProgressHUD.getBundleImage("success"))
+    public var errorImage: UIImage? = UIImage(contentsOfFile: ProgressHUD.getBundleImage("error"))
     
     public var graceTimeInterval: TimeInterval = 0
     public var minimumDismissTimeInterval: TimeInterval = 5.0
     public var maximumDismissTimeInterval: TimeInterval = CGFLOAT_MAX
     
     public var offsetFromCenter: UIOffset = .zero
-    public var fadeInAnimationDuration: TimeInterval = YJProgressHUD.defaultAnimationDuration
-    public var fadeOutAnimationDuration: TimeInterval = YJProgressHUD.defaultAnimationDuration
+    public var fadeInAnimationDuration: TimeInterval = ProgressHUD.defaultAnimationDuration
+    public var fadeOutAnimationDuration: TimeInterval = ProgressHUD.defaultAnimationDuration
     public var maxSupportedWindowLevel: UIWindow.Level = .normal
     public var hapticsEnabled: Bool = false
     public var motionEffectEnabled: Bool = true
@@ -358,12 +357,12 @@ public class YJProgressHUD : UIView {
     
     private var notificationUserInfo: [NSNotification.Name : Any]? {
         if let text = getStatusLabel().text {
-            return [ YJProgressHUD.statusUserInfoKey : text ]
+            return [ ProgressHUD.statusUserInfoKey : text ]
         }
         return nil
     }
     
-    private static let shared = YJProgressHUD(frame: UIScreen.main.bounds)
+    private static let shared = ProgressHUD(frame: UIScreen.main.bounds)
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
@@ -415,13 +414,13 @@ public class YJProgressHUD : UIView {
             contentHeight = imageUsed ? getImageView().frame.height : (shouldSingleLabel ? 0.0 : getIndefiniteAnimatedView().frame.height)
         }
         
-        hudWidth = YJProgressHUD.horizontalSpacing + max(labelWidth, contentWidth) + YJProgressHUD.horizontalSpacing
+        hudWidth = ProgressHUD.horizontalSpacing + max(labelWidth, contentWidth) + ProgressHUD.horizontalSpacing
         
         // |-spacing-content-(labelSpacing-label-)spacing-|
-        hudHeight = YJProgressHUD.verticalSpacing + labelHeight + contentHeight + YJProgressHUD.verticalSpacing
+        hudHeight = ProgressHUD.verticalSpacing + labelHeight + contentHeight + ProgressHUD.verticalSpacing
         if let _ = getStatusLabel().text, (imageUsed || progressUsed) {
             // Add spacing if both content and label are used
-            hudHeight += YJProgressHUD.labelSpacing
+            hudHeight += ProgressHUD.labelSpacing
         }
         
         // Update values on subviews
@@ -434,13 +433,13 @@ public class YJProgressHUD : UIView {
         // Spinner and image view
         var centerY: CGFloat
         if let _ = getStatusLabel().text {
-            let yOffset = max(YJProgressHUD.verticalSpacing, (minimumSize.height - contentHeight - YJProgressHUD.labelSpacing - labelHeight) / 2.0)
+            let yOffset = max(ProgressHUD.verticalSpacing, (minimumSize.height - contentHeight - ProgressHUD.labelSpacing - labelHeight) / 2.0)
             centerY = yOffset + contentHeight / 2.0
         } else {
             centerY = getHudView().bounds.midY
         }
         getIndefiniteAnimatedView().center = CGPoint(x: getHudView().bounds.midX, y: centerY)
-        if progress != YJProgressHUD.undefinedProgress {
+        if progress != ProgressHUD.undefinedProgress {
             getRingView().center = CGPoint(x: getHudView().bounds.midX, y: centerY)
             getBackgroundRingView().center = getRingView().center
         }
@@ -448,7 +447,7 @@ public class YJProgressHUD : UIView {
         
         // Label
         if imageUsed || progressUsed {
-            centerY = (imageUsed ? getImageView().frame.maxY : getIndefiniteAnimatedView().frame.maxY) + YJProgressHUD.labelSpacing + labelHeight / 2.0
+            centerY = (imageUsed ? getImageView().frame.maxY : getIndefiniteAnimatedView().frame.maxY) + ProgressHUD.labelSpacing + labelHeight / 2.0
         } else {
             centerY = getHudView().bounds.midY
         }
@@ -466,12 +465,12 @@ public class YJProgressHUD : UIView {
     
     private func updateMotionEffectType(x xMotionEffectType: UIInterpolatingMotionEffect.EffectType, y yMotionEffectType: UIInterpolatingMotionEffect.EffectType) {
         let effectX = UIInterpolatingMotionEffect(keyPath: "center.x", type: .tiltAlongHorizontalAxis)
-        effectX.minimumRelativeValue = -YJProgressHUD.parallaxDepthPoints
-        effectX.maximumRelativeValue = YJProgressHUD.parallaxDepthPoints
+        effectX.minimumRelativeValue = -ProgressHUD.parallaxDepthPoints
+        effectX.maximumRelativeValue = ProgressHUD.parallaxDepthPoints
 
         let effectY = UIInterpolatingMotionEffect(keyPath: "center.y", type: .tiltAlongVerticalAxis)
-        effectY.minimumRelativeValue = -YJProgressHUD.parallaxDepthPoints
-        effectY.maximumRelativeValue = YJProgressHUD.parallaxDepthPoints
+        effectY.minimumRelativeValue = -ProgressHUD.parallaxDepthPoints
+        effectY.maximumRelativeValue = ProgressHUD.parallaxDepthPoints
 
         let effectGroup = UIMotionEffectGroup()
         effectGroup.motionEffects = [effectX, effectY]
@@ -567,20 +566,20 @@ public class YJProgressHUD : UIView {
     
     @objc private func controlViewDidReceiveTouchEvent(_ sender: Any, event: UIEvent) {
         
-        NotificationCenter.default.post(name: YJProgressHUD.didReceiveTouchEventNotification, object: self, userInfo: notificationUserInfo)
+        NotificationCenter.default.post(name: ProgressHUD.didReceiveTouchEventNotification, object: self, userInfo: notificationUserInfo)
         
         if let touch = event.allTouches?.first {
             let touchLocation = touch.location(in: self)
             
             if CGRectContainsPoint(getHudView().frame, touchLocation) {
-                NotificationCenter.default.post(name: YJProgressHUD.didTouchDownInsideNotification, object: self, userInfo: notificationUserInfo)
+                NotificationCenter.default.post(name: ProgressHUD.didTouchDownInsideNotification, object: self, userInfo: notificationUserInfo)
             }
         }
     }
     
     private func displayDurationFor(_ string: String?) -> TimeInterval {
-        let minimum = max(CGFloat(string?.count ?? 0) * 0.06 + 0.5, YJProgressHUD.shared.minimumDismissTimeInterval)
-        return min(minimum, YJProgressHUD.shared.maximumDismissTimeInterval)
+        let minimum = max(CGFloat(string?.count ?? 0) * 0.06 + 0.5, ProgressHUD.shared.minimumDismissTimeInterval)
+        return min(minimum, ProgressHUD.shared.maximumDismissTimeInterval)
     }
     
     private func cancelRingLayerAnimation() {
@@ -608,22 +607,22 @@ public class YJProgressHUD : UIView {
 }
 
 // MARK: - Show Methods
-extension YJProgressHUD {
+extension ProgressHUD {
     
-    public class func show(_ status: String? = nil, _ progress: CGFloat = YJProgressHUD.undefinedProgress) {
-        let hud = YJProgressHUD.shared
+    public class func show(_ status: String? = nil, _ progress: CGFloat = ProgressHUD.undefinedProgress) {
+        let hud = ProgressHUD.shared
         hud.shouldSingleLabel = false
         hud.show(status, progress: progress)
     }
     
     public class func showMessage(_ message: String?) {
-        let hud = YJProgressHUD.shared
+        let hud = ProgressHUD.shared
         hud.shouldSingleLabel = true
         hud.showImage(nil, status: message, duration: hud.displayDurationFor(message))
     }
     
     public class func showInfo(_ status: String?) {
-        let hud = YJProgressHUD.shared
+        let hud = ProgressHUD.shared
         hud.shouldSingleLabel = false
         hud.showImage(hud.infoImage, status: status, duration: hud.displayDurationFor(status))
         
@@ -633,7 +632,7 @@ extension YJProgressHUD {
     }
     
     public class func showSuccess(_ status: String?) {
-        let hud = YJProgressHUD.shared
+        let hud = ProgressHUD.shared
         hud.shouldSingleLabel = false
         hud.showImage(hud.successImage, status: status, duration: hud.displayDurationFor(status))
         
@@ -643,7 +642,7 @@ extension YJProgressHUD {
     }
     
     public class func showError(_ status: String?) {
-        let hud = YJProgressHUD.shared
+        let hud = ProgressHUD.shared
         hud.shouldSingleLabel = false
         hud.showImage(hud.errorImage, status: status, duration: hud.displayDurationFor(status))
         
@@ -653,7 +652,7 @@ extension YJProgressHUD {
     }
     
     public class func dismiss(_ delay: TimeInterval = 0, _ completion: (() -> Void)? = nil) {
-        YJProgressHUD.shared.dismiss(delay, completion)
+        ProgressHUD.shared.dismiss(delay, completion)
     }
     
     private func show(_ status: String?, progress: CGFloat) {
@@ -752,7 +751,7 @@ extension YJProgressHUD {
             self.updateViewHierarchy()
             
             // Reset progress and cancel any running animation
-            self.progress = YJProgressHUD.undefinedProgress
+            self.progress = ProgressHUD.undefinedProgress
             self.cancelRingLayerAnimation()
             self.cancelIndefiniteAnimatedViewAnimation()
             
@@ -803,7 +802,7 @@ extension YJProgressHUD {
         // Show if not already visible
         if getBackgroundView().alpha != 1.0 {
             // Post notification to inform user
-            NotificationCenter.default.post(name: YJProgressHUD.willAppearNotification, object: self, userInfo: notificationUserInfo)
+            NotificationCenter.default.post(name: ProgressHUD.willAppearNotification, object: self, userInfo: notificationUserInfo)
             
             // Zoom HUD a little to to make a nice appear / pop up animation
             getHudView().transform = getHudView().transform.scaledBy(x: 1.3, y: 1.3)
@@ -823,7 +822,7 @@ extension YJProgressHUD {
                     self.registerNotifications()
                     
                     // Post notification to inform user
-                    NotificationCenter.default.post(name: YJProgressHUD.didAppearNotification, object: self, userInfo: self.notificationUserInfo)
+                    NotificationCenter.default.post(name: ProgressHUD.didAppearNotification, object: self, userInfo: self.notificationUserInfo)
                     
                     // Dismiss automatically if a duration was passed as userInfo. We start a timer
                     // which then will call dismiss after the predefined duration
@@ -907,7 +906,7 @@ extension YJProgressHUD {
             guard let self = self else { return }
             
             // Post notification to inform user
-            NotificationCenter.default.post(name: YJProgressHUD.willDisappearNotification, object: nil, userInfo: self.notificationUserInfo)
+            NotificationCenter.default.post(name: ProgressHUD.willDisappearNotification, object: nil, userInfo: self.notificationUserInfo)
             
             // Reset activity count
             self.activityCount = 0
@@ -931,7 +930,7 @@ extension YJProgressHUD {
                     self.removeFromSuperview()
                     
                     // Reset progress and cancel any running animation
-                    self.progress = YJProgressHUD.undefinedProgress
+                    self.progress = ProgressHUD.undefinedProgress
                     self.cancelRingLayerAnimation()
                     self.cancelIndefiniteAnimatedViewAnimation()
                     
@@ -939,7 +938,7 @@ extension YJProgressHUD {
                     NotificationCenter.default.removeObserver(self)
                     
                     // Post notification to inform user
-                    NotificationCenter.default.post(name: YJProgressHUD.didDisappearNotification, object: self, userInfo: self.notificationUserInfo)
+                    NotificationCenter.default.post(name: ProgressHUD.didDisappearNotification, object: self, userInfo: self.notificationUserInfo)
                     
                     // Tell the rootViewController to update the StatusBar appearance
                     if let rootController = UIApplication.shared.keyWindow?.rootViewController {
@@ -1018,7 +1017,7 @@ public class YJIndefiniteAnimatedView : UIView {
             
             let maskLayer = CALayer()
             
-            maskLayer.contents = UIImage(contentsOfFile: YJProgressHUD.getBundleImage("angle-mask"))?.cgImage
+            maskLayer.contents = UIImage(contentsOfFile: ProgressHUD.getBundleImage("angle-mask"))?.cgImage
             maskLayer.frame = shapeLayer.bounds
             shapeLayer.mask = maskLayer
             

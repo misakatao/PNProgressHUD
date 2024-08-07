@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-               BuildableName = "YJProgressHUD_Example.app"
-               BlueprintName = "YJProgressHUD_Example"
-               ReferencedContainer = "container:YJProgressHUD.xcodeproj">
+               BuildableName = "PNProgressHUD_Example.app"
+               BlueprintName = "PNProgressHUD_Example"
+               ReferencedContainer = "container:PNProgressHUD.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "YJProgressHUD_Tests.xctest"
-               BlueprintName = "YJProgressHUD_Tests"
-               ReferencedContainer = "container:YJProgressHUD.xcodeproj">
+               BuildableName = "PNProgressHUD_Tests.xctest"
+               BlueprintName = "PNProgressHUD_Tests"
+               ReferencedContainer = "container:PNProgressHUD.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,9 +48,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "607FACE41AFB9204008FA782"
-               BuildableName = "YJProgressHUD_Tests.xctest"
-               BlueprintName = "YJProgressHUD_Tests"
-               ReferencedContainer = "container:YJProgressHUD.xcodeproj">
+               BuildableName = "PNProgressHUD_Tests.xctest"
+               BlueprintName = "PNProgressHUD_Tests"
+               ReferencedContainer = "container:PNProgressHUD.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -58,9 +58,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "YJProgressHUD_Example.app"
-            BlueprintName = "YJProgressHUD_Example"
-            ReferencedContainer = "container:YJProgressHUD.xcodeproj">
+            BuildableName = "PNProgressHUD_Example.app"
+            BlueprintName = "PNProgressHUD_Example"
+            ReferencedContainer = "container:PNProgressHUD.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -82,9 +82,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "YJProgressHUD_Example.app"
-            BlueprintName = "YJProgressHUD_Example"
-            ReferencedContainer = "container:YJProgressHUD.xcodeproj">
+            BuildableName = "PNProgressHUD_Example.app"
+            BlueprintName = "PNProgressHUD_Example"
+            ReferencedContainer = "container:PNProgressHUD.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -101,9 +101,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "607FACCF1AFB9204008FA782"
-            BuildableName = "YJProgressHUD_Example.app"
-            BlueprintName = "YJProgressHUD_Example"
-            ReferencedContainer = "container:YJProgressHUD.xcodeproj">
+            BuildableName = "PNProgressHUD_Example.app"
+            BlueprintName = "PNProgressHUD_Example"
+            ReferencedContainer = "container:PNProgressHUD.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
