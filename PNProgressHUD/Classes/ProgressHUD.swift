@@ -102,7 +102,7 @@ public class ProgressHUD : UIView {
         control.backgroundColor = UIColor.clear
         control.isUserInteractionEnabled = true
         control.addTarget(self, action: #selector(controlViewDidReceiveTouchEvent(_:event:)), for: .touchDown)
-        if let windowBounds = UIApplication.shared.delegate?.window??.bounds {
+        if let windowBounds = mainWindow?.bounds {
             control.frame = windowBounds
         } else {
             control.frame = UIScreen.main.bounds
@@ -310,8 +310,21 @@ public class ProgressHUD : UIView {
             if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
                 return scene.windows
             }
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                return scene.windows
+            }
         }
         return UIApplication.shared.windows
+    }()
+    
+    private lazy var mainWindow: UIWindow? = {
+        if !windows.isEmpty {
+            return windows.first
+        }
+        if let window = UIApplication.shared.delegate?.window {
+            return window
+        }
+        return UIApplication.shared.keyWindow
     }()
     
     private lazy var frontWindow: UIWindow? = {
@@ -328,7 +341,7 @@ public class ProgressHUD : UIView {
         if let window = UIApplication.shared.delegate?.window {
             return window
         }
-        return nil
+        return UIApplication.shared.keyWindow
     }()
     
     private lazy var hapticGenerator: UINotificationFeedbackGenerator? = {
@@ -520,8 +533,17 @@ public class ProgressHUD : UIView {
         var keyboardHeight: CGFloat = 0.0
         var animationDuration: Double = 0.0
         
-        frame = UIApplication.shared.delegate?.window??.bounds ?? CGRect.zero
-        let orientation: UIInterfaceOrientation = UIApplication.shared.statusBarOrientation
+        frame = mainWindow?.bounds ?? CGRect.zero
+        
+        let orientation: UIInterfaceOrientation
+        let statusBarFrame: CGRect
+        if #available(iOS 13.0, *), let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+            orientation = scene.interfaceOrientation
+            statusBarFrame = scene.statusBarManager?.statusBarFrame ?? UIApplication.shared.statusBarFrame
+        } else {
+            orientation = UIApplication.shared.statusBarOrientation
+            statusBarFrame = UIApplication.shared.statusBarFrame
+        }
         
         if let notification = notification as? NSNotification, let keyboardInfo = notification.userInfo {
             let keyboardFrame = (keyboardInfo[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue ?? CGRect.zero
@@ -539,7 +561,6 @@ public class ProgressHUD : UIView {
         }
         
         let orientationFrame = bounds
-        let statusBarFrame = UIApplication.shared.statusBarFrame
         
         if motionEffectEnabled {
             updateMotionEffect(orientation)
@@ -953,7 +974,7 @@ extension ProgressHUD {
                     NotificationCenter.default.post(name: ProgressHUD.didDisappearNotification, object: self, userInfo: self.notificationUserInfo)
                     
                     // Tell the rootViewController to update the StatusBar appearance
-                    if let rootController = UIApplication.shared.keyWindow?.rootViewController {
+                    if let rootController = self.mainWindow?.rootViewController {
                         rootController.setNeedsStatusBarAppearanceUpdate()
                     }
                     
