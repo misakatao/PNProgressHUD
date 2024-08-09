@@ -124,7 +124,7 @@ public class ProgressHUD : UIView {
         // Update styling
         if defaultMaskType == .gradient {
             if backgroundRadialGradientLayer == nil {
-                backgroundRadialGradientLayer = YJRadialGradientLayer()
+                backgroundRadialGradientLayer = RadialGradientLayer()
             }
             if let gradientLayer = backgroundRadialGradientLayer, gradientLayer.superlayer == nil {
                 backgroundView?.layer.insertSublayer(gradientLayer, at: 0)
@@ -155,7 +155,7 @@ public class ProgressHUD : UIView {
         return backgroundView!
     }
     
-    private var backgroundRadialGradientLayer: YJRadialGradientLayer?
+    private var backgroundRadialGradientLayer: RadialGradientLayer?
     
     private var hudView: UIVisualEffectView?
     private func getHudView() -> UIVisualEffectView {
@@ -218,13 +218,13 @@ public class ProgressHUD : UIView {
     private func getIndefiniteAnimatedView() -> UIView {
         
         if defaultAnimationType == .flat {
-            if let existingView = indefiniteAnimatedView, !(existingView is YJIndefiniteAnimatedView) {
+            if let existingView = indefiniteAnimatedView, !(existingView is IndefiniteAnimatedView) {
                 existingView.removeFromSuperview()
                 indefiniteAnimatedView = nil
             }
             
             if indefiniteAnimatedView == nil {
-                let view = YJIndefiniteAnimatedView()
+                let view = IndefiniteAnimatedView()
                 view.strokeColor = foregroundImageColorForStyle
                 view.strokeThickness = ringThickness
                 view.radius = getStatusLabel().text != nil ? ringRadius : ringNoTextRadius
@@ -246,10 +246,10 @@ public class ProgressHUD : UIView {
         return indefiniteAnimatedView!
     }
     
-    private var ringView: YJProgressAnimatedView?
-    private func getRingView() -> YJProgressAnimatedView {
+    private var ringView: ProgressAnimatedView?
+    private func getRingView() -> ProgressAnimatedView {
         if ringView == nil {
-            ringView = YJProgressAnimatedView()
+            ringView = ProgressAnimatedView()
         }
         // Update styling
         ringView?.strokeColor = foregroundColorForStyle
@@ -258,10 +258,10 @@ public class ProgressHUD : UIView {
         return ringView!
     }
     
-    private var backgroundRingView: YJProgressAnimatedView?
-    private func getBackgroundRingView() -> YJProgressAnimatedView {
+    private var backgroundRingView: ProgressAnimatedView?
+    private func getBackgroundRingView() -> ProgressAnimatedView {
         if backgroundRingView == nil {
-            backgroundRingView = YJProgressAnimatedView()
+            backgroundRingView = ProgressAnimatedView()
             backgroundRingView?.strokeEnd = 1.0
         }
         // Update styling
@@ -305,16 +305,28 @@ public class ProgressHUD : UIView {
         return 0
     }
     
+    private lazy var windows: [UIWindow] = {
+        if #available(iOS 13.0, *) {
+            if let scene = UIApplication.shared.connectedScenes.first(where: { $0.activationState == .foregroundActive }) as? UIWindowScene {
+                return scene.windows
+            }
+        }
+        return UIApplication.shared.windows
+    }()
+    
     private lazy var frontWindow: UIWindow? = {
-        for window in UIApplication.shared.windows.reversed() {
-            let windowOnMainScreen = window.screen == UIScreen.main
-            let windowIsVisible = !window.isHidden && window.alpha > 0
-            let windowLevelSupported = (window.windowLevel >= .normal && window.windowLevel <= maxSupportedWindowLevel)
-            let windowKeyWindow = window.isKeyWindow
+        for window in windows.reversed() {
+            let onMainScreen = window.screen == UIScreen.main
+            let isVisible = !window.isHidden && window.alpha > 0
+            let levelSupported = (window.windowLevel >= .normal && window.windowLevel <= maxSupportedWindowLevel)
+            let isKeyWindow = window.isKeyWindow
             
-            if windowOnMainScreen && windowIsVisible && windowLevelSupported && windowKeyWindow {
+            if onMainScreen && isVisible && levelSupported && isKeyWindow {
                 return window
             }
+        }
+        if let window = UIApplication.shared.delegate?.window {
+            return window
         }
         return nil
     }()
@@ -658,7 +670,7 @@ extension ProgressHUD {
     private func show(_ status: String?, progress: CGFloat) {
         
         OperationQueue.main.addOperation { [weak self] in
-            guard let self = self else { return }
+            guard let `self` = self else { return }
             
             if self.fadeOutTimer != nil {
                 self.activityCount = 0
@@ -739,7 +751,7 @@ extension ProgressHUD {
     private func showImage(_ image: UIImage?, status: String?, duration: TimeInterval) {
         
         OperationQueue.main.addOperation { [weak self] in
-            guard let self = self else { return }
+            guard let `self` = self else { return }
             
             // Stop timer
             self.fadeOutTimer?.invalidate()
@@ -903,7 +915,7 @@ extension ProgressHUD {
     public func dismiss(_ delay: TimeInterval, _ completion: (() -> Void)?) {
         
         OperationQueue.main.addOperation { [weak self] in
-            guard let self = self else { return }
+            guard let `self` = self else { return }
             
             // Post notification to inform user
             NotificationCenter.default.post(name: ProgressHUD.willDisappearNotification, object: nil, userInfo: self.notificationUserInfo)
@@ -974,7 +986,7 @@ extension ProgressHUD {
     }
 }
 
-public class YJIndefiniteAnimatedView : UIView {
+public class IndefiniteAnimatedView : UIView {
     
     public var strokeThickness: CGFloat = 0 {
         didSet {
@@ -1090,7 +1102,7 @@ public class YJIndefiniteAnimatedView : UIView {
     }
 }
 
-public class YJProgressAnimatedView : UIView {
+public class ProgressAnimatedView : UIView {
     
     public var strokeColor: UIColor? {
         didSet {
@@ -1165,7 +1177,7 @@ public class YJProgressAnimatedView : UIView {
     }
 }
 
-public class YJRadialGradientLayer : CALayer {
+public class RadialGradientLayer : CALayer {
     
     public var gradientCenter: CGPoint = .zero
     
