@@ -387,7 +387,7 @@ public class ProgressHUD : UIView {
         return nil
     }
     
-    private static let shared = ProgressHUD(frame: UIScreen.main.bounds)
+    public static let shared = ProgressHUD(frame: UIScreen.main.bounds)
     
     public override init(frame: CGRect) {
         super.init(frame: frame)
